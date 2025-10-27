@@ -3,24 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Personajes de Rick y Morty</title>
+  <title>Rick y Morty</title>
   <link rel="stylesheet" href="/Proyecto/Estilos/Styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/Proyecto/Img's/Rick_Morty_Logo_1.jpg">
 </head>
 <body>
-  <header>
-    <h1>Personajes de Rick y Morty</h1>
-  </header>
+ <header>
+  <img src="/Proyecto/Img's/Rick_Morty_Logo.png" alt="Logo" class="logo">
+  <h1>Personajes de Rick y Morty</h1>
+</header>
+<div class="search-container">
+  <input type="text" id="searchInput" placeholder="Buscar personaje...">
+</div>
+
+<div class="species-container" id="speciesContainer">
+ 
+</div>
 
   <main>
     <section class="container" id="characterContainer">
     </section>
   </main>
 
-   <div class="pagination">
-      <button id="prevBtn">⬅️ Anterior</button>
-      <span id="pageInfo"></span>
-      <button id="nextBtn">Siguiente ➡️</button>
-    </div>
+  <div class="pagination">
+  <button id="prevBtn">
+    <span class="material-symbols-outlined">arrow_back</span>
+    Anterior
+  </button>
+
+  <span id="pageInfo"></span>
+
+  <button id="nextBtn">
+    Siguiente
+    <span class="material-symbols-outlined">arrow_forward</span>
+  </button>
+</div>
+
   </main>
 
   <script src="/Proyecto/Scripts/main.js"></script>

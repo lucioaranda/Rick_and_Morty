@@ -2,32 +2,57 @@ const container = document.getElementById('characterContainer');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 const pageInfo = document.getElementById('pageInfo');
+const searchInput = document.getElementById('searchInput');
+const speciesContainer = document.getElementById('speciesContainer');
 
 let allCharacters = [];
+let filteredCharacters = [];
 let currentPage = 1;
 const charactersPerPage = 40;
+let activeSpecies = ''; 
 
-async function obtenerTodosLosPersonajes() {
-  let url = 'https://rickandmortyapi.com/api/character';
-  let personajes = [];
+const speciesList = [
+  "Human", "Alien", "Humanoid", "unknown", "Poopybutthole",
+  "Mythological Creature", "Animal", "Robot", "Cronenberg", "Disease"
+];
 
 
-  while (url) {
-    const respuesta = await fetch(url);
-    const datos = await respuesta.json();
-    personajes = personajes.concat(datos.results);
-    url = datos.info.next;
-  }
-
-  return personajes;
+function generarBotonesEspecies() {
+  speciesContainer.innerHTML = '';
+  speciesList.forEach(species => {
+    const btn = document.createElement('button');
+    btn.textContent = species;
+    btn.classList.add('species-btn');
+    btn.addEventListener('click', () => {
+   
+      activeSpecies = activeSpecies === species ? '' : species;
+      document.querySelectorAll('.species-btn').forEach(b => b.classList.remove('active'));
+      if (activeSpecies) btn.classList.add('active');
+      aplicarFiltros();
+    });
+    speciesContainer.appendChild(btn);
+  });
 }
 
-function mostrarPagina(pagina) {
-  container.innerHTML = ''; 
 
+function aplicarFiltros() {
+  const query = searchInput.value.toLowerCase();
+  filteredCharacters = allCharacters.filter(personaje => {
+    const coincideNombre = personaje.name.toLowerCase().includes(query);
+    const coincideEspecie = activeSpecies === '' || personaje.species === activeSpecies;
+    return coincideNombre && coincideEspecie;
+  });
+  currentPage = 1;
+  mostrarPagina(currentPage, filteredCharacters);
+}
+
+
+function mostrarPagina(pagina, personajesArray = allCharacters) {
+  container.innerHTML = ''; 
+  const totalPages = Math.ceil(personajesArray.length / charactersPerPage);
   const start = (pagina - 1) * charactersPerPage;
   const end = start + charactersPerPage;
-  const personajesPagina = allCharacters.slice(start, end);
+  const personajesPagina = personajesArray.slice(start, end);
 
   personajesPagina.forEach(personaje => {
     const card = document.createElement('div');
@@ -43,29 +68,50 @@ function mostrarPagina(pagina) {
     container.appendChild(card);
   });
 
-  pageInfo.textContent = `Página ${pagina} de ${Math.ceil(allCharacters.length / charactersPerPage)}`;
-
+  pageInfo.textContent = `Página ${pagina} de ${totalPages}`;
   prevBtn.disabled = pagina === 1;
-  nextBtn.disabled = pagina === Math.ceil(allCharacters.length / charactersPerPage);
+  nextBtn.disabled = pagina === totalPages;
 }
 
-async function iniciar() {
-  allCharacters = await obtenerTodosLosPersonajes();
-  mostrarPagina(currentPage);
-}
 
 prevBtn.addEventListener('click', () => {
   if (currentPage > 1) {
     currentPage--;
-    mostrarPagina(currentPage);
+    const personajesArray = filteredCharacters.length ? filteredCharacters : allCharacters;
+    mostrarPagina(currentPage, personajesArray);
   }
 });
 
 nextBtn.addEventListener('click', () => {
-  if (currentPage < Math.ceil(allCharacters.length / charactersPerPage)) {
+  const personajesArray = filteredCharacters.length ? filteredCharacters : allCharacters;
+  if (currentPage < Math.ceil(personajesArray.length / charactersPerPage)) {
     currentPage++;
-    mostrarPagina(currentPage);
+    mostrarPagina(currentPage, personajesArray);
   }
 });
 
+
+searchInput.addEventListener('input', aplicarFiltros);
+
+
+async function iniciar() {
+  allCharacters = await obtenerTodosLosPersonajes();
+  filteredCharacters = [];
+  generarBotonesEspecies();
+  mostrarPagina(currentPage);
+}
+
 iniciar();
+
+
+async function obtenerTodosLosPersonajes() {
+  let url = 'https://rickandmortyapi.com/api/character';
+  let personajes = [];
+  while (url) {
+    const respuesta = await fetch(url);
+    const datos = await respuesta.json();
+    personajes = personajes.concat(datos.results);
+    url = datos.info.next;
+  }
+  return personajes;
+}
