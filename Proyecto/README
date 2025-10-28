@@ -11,7 +11,7 @@ Los objetivos del trabajo son los siguientes:
 - Documentación clara del proceso técnico y los comandos utilizados.
 
 Estructura del proyecto: 
-
+```
 Proyecto/
 │
 ├── index.html
@@ -44,20 +44,20 @@ Correr el proyecto
 
 Desde la carpeta del Proyecto 
 
-- cd Proyecto
+ cd Proyecto
 
 Construcción de la imagen en docker
 
-- docker build -t rickmorty-app .
+ docker build -t rickmorty-app .
 
 Ejecución del contenedor: 
 
-- docker run -d -p 8080:80 rickmorty-app
+ docker run -d -p 8080:80 rickmorty-app
 
 Visualizar contenedores en ejecución.
 
-- docker ps 
+ docker ps 
 
 Abrir en el navegador:
 
-- http://localhost:8080
+ http://localhost:8080
