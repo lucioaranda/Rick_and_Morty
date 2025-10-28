@@ -68,6 +68,6 @@ EXPOSE 80
  - docker ps 
 ```
 ## Abrir en el navegador:
-```
+
  http://localhost:8080
-```
+
