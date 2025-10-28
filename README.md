@@ -2,6 +2,8 @@
 
 # Proyecto Rick y Morty
 
+https://github.com/lucioaranda/Rick_and_Morty
+
 ## La aplicación muestra personajes de Rick y Morty usando la [API oficial](https://rickandmortyapi.com/), con búsqueda y filtros por especie.
 
 ## Los objetivos del trabajo son los siguientes:
