@@ -52,20 +52,20 @@ EXPOSE 80
 
 ## Desde la carpeta del Proyecto 
 ```
- - cd Proyecto
+  cd Proyecto
 ```
 
 ## Construcción de la imagen en docker
 ```
- - docker build -t rickmorty-app .
+  docker build -t rickmorty-app .
 ```
 ## Ejecución del contenedor: 
 ```
- - docker run -d -p 8080:80 rickmorty-app
+  docker run -d -p 8080:80 rickmorty-app
 ```
 ## Visualizar contenedores en ejecución.
 ```
- - docker ps 
+  docker ps 
 ```
 ## Abrir en el navegador:
 
